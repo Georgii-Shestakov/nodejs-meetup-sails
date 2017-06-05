@@ -32,20 +32,13 @@ module.exports = {
 
   // Here we encrypt password before creating a User
  beforeCreate : (values, next) => {
-   bcrypt.genSalt(10,  (err, salt) => {
-     if (err) {
-        return next(err)
-     }
-
-     bcrypt.hash(values.password, salt,  (err, hash) => {
+   bcrypt.hash(values.password, 10, function(err, hash) {
        if (err) {
           return next(err)
        }
        values.password = hash
        next()
-     })
-
-   })
+  })
  },
  comparePassword :  (password, user, cb) => {
    bcrypt.compare(password, user.password, cb)
